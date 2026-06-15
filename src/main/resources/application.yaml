@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: footballhub-admin-backend
+    name: footballhub-manage-backend
   datasource:
     hikari:
       connection-timeout: 20000

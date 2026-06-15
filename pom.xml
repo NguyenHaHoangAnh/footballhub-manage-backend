@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>footballhub-admin-backend</artifactId>
+	<artifactId>footballhub-manage-backend</artifactId>
 	<version>0.0.1</version>
 	<name>footballhub-admin-backend</name>
 	<description>Core</description>
