@@ -33,6 +33,13 @@ public class StandingController extends BaseController<Standing, Integer, Standi
         return this.standingService.findByCompetitionIdAndSeasonId(requestDto);
     }
 
+    @CrossOrigin("/**")
+    @RequestMapping(value = "/public/standings", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseMsg<?> findStandingByCompetitionIdAndSeasonIdPublic(@RequestBody StandingRequestDto requestDto) throws Exception {
+        return this.standingService.findByCompetitionIdAndSeasonId(requestDto);
+    }
+
 //    @CrossOrigin(origins = "/**")
 //    @RequestMapping(value = "/standings", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 //    @ResponseBody

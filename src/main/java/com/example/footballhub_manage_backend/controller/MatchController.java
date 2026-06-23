@@ -51,9 +51,34 @@ public class MatchController extends BaseController<Match, Integer, MatchReposit
     }
 
     @CrossOrigin(origins = "/**")
+    @RequestMapping(value = "/public/matches", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseMsg<?> findAllMatchPublic(@RequestParam(value = "filters", required = false) String filtersJson, Pageable pageable) throws Exception {
+        if (filtersJson == null || filtersJson.isEmpty()) {
+            return super.findAll(pageable);
+        }
+
+        // parse json to Filters[]
+        ObjectMapper mapper = new ObjectMapper();
+        Filter[] filters = mapper.readValue(filtersJson, Filter[].class);
+
+        CriteriaParser parser = new CriteriaParser();
+        GenericSpecificationsBuilder<Match> builder = new GenericSpecificationsBuilder<>();
+        Specification<Match> spec = builder.build(parser.parse(filters), MatchSpecification::new);
+        return super.findAll(spec, pageable);
+    }
+
+    @CrossOrigin(origins = "/**")
     @RequestMapping(value = "/matches/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseMsg<?> findMatchById(@PathVariable("id") Integer id) throws Exception {
+        return this.matchService.findByMatchId(id);
+    }
+
+    @CrossOrigin(origins = "/**")
+    @RequestMapping(value = "/public/matches/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseMsg<?> findMatchByIdPublic(@PathVariable("id") Integer id) throws Exception {
         return this.matchService.findByMatchId(id);
     }
 

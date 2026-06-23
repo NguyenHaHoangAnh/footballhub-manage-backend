@@ -36,5 +36,5 @@ football-data-api:
 auth:
   token-url: http://localhost:8080/api/v1/auth/token
   permit-urls:
-    - /api/v1/admin/public/**
+    - /api/v1/am/public/**
   login-url: http://localhost:8080/api/v1/login

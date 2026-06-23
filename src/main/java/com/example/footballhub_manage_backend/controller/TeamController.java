@@ -58,6 +58,13 @@ public class TeamController extends BaseController<Team, Integer, TeamRepository
     }
 
     @CrossOrigin(origins = "/**")
+    @RequestMapping(value = "/public/teams/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseMsg<?> findTeamByIdPublic(@PathVariable("id") Integer id) throws Exception {
+        return this.teamService.findByTeamId(id);
+    }
+
+    @CrossOrigin(origins = "/**")
     @RequestMapping(value = "/teams", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseMsg<?> createTeam(@RequestBody Team team) throws Exception {

@@ -25,14 +25,27 @@ public interface TeamMapper {
                     t.founded as founded,
                     t.club_colors as clubColors,
                     t.venue as venue,
+                    c.competition_id as currentCompetitionId,
+                    s.season_id as currentSeasonId,
                     t.created_at as createdAt,
                     t.created_by as createdBy,
                     t.updated_at as updatedAt,
                     t.updated_by as updatedBy
                 from football.team t
                 join football.area a on a.area_id = t.area_id
+                join football.competition_team_map ctm on ctm.team_id = t.team_id
+                join football.competition c on c.competition_id = ctm.competition_id
+                join football.season s on s.season_id = (
+                    select s2.season_id
+                    from football.season s2
+                    where
+                        s2.competition_id = c.competition_id
+                    order by s2.year desc
+                    limit 1
+                )
                 where
                     t.team_id = #{teamId}
+                    and c.type = 'LEAGUE'
             </script>
             """)
     TeamResponseDto findByTeamId(@Param("teamId") Integer teamId);

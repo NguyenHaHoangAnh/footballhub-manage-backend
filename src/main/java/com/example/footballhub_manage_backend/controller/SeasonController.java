@@ -65,6 +65,13 @@ public class SeasonController extends BaseController<Season, Integer, SeasonRepo
     }
 
     @CrossOrigin(origins = "/**")
+    @RequestMapping(value = "/public/seasons/competition/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseMsg<?> findSeasonByCompetitionIdPublic(@PathVariable("id") Integer id) throws Exception {
+        return this.seasonService.findByCompetitionId(id);
+    }
+
+    @CrossOrigin(origins = "/**")
     @RequestMapping(value = "/seasons", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseMsg<?> createSeason(@RequestBody Season season) throws Exception {

@@ -20,4 +20,6 @@ public class TeamResponseDto {
     private Integer founded;
     private String clubColors;
     private String venue;
+    private Integer currentCompetitionId;
+    private Integer currentSeasonId;
 }

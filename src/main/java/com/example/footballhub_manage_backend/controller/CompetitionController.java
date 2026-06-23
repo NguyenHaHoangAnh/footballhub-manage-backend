@@ -50,6 +50,24 @@ public class CompetitionController extends BaseController<Competition, Integer, 
     }
 
     @CrossOrigin(origins = "/**")
+    @RequestMapping(value = "/public/competitions", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseMsg<?> findAllCompetitionPublic(@RequestParam(value = "filters", required = false) String filtersJson, Pageable pageable) throws Exception {
+        if (filtersJson == null || filtersJson.isEmpty()) {
+            return super.findAll(pageable);
+        }
+
+        // parse json to Filters[]
+        ObjectMapper mapper = new ObjectMapper();
+        Filter[] filters = mapper.readValue(filtersJson, Filter[].class);
+
+        CriteriaParser parser = new CriteriaParser();
+        GenericSpecificationsBuilder<Competition> builder = new GenericSpecificationsBuilder<>();
+        Specification<Competition> spec = builder.build(parser.parse(filters), CompetitionSpecification::new);
+        return super.findAll(spec, pageable);
+    }
+
+    @CrossOrigin(origins = "/**")
     @RequestMapping(value = "/competitions/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseMsg<?> findCompetitionById(@PathVariable("id") Integer id) throws Exception {
